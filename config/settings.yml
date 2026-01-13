@@ -1,0 +1,4 @@
+plugins:
+  posthog_identify_enabled:
+    default: true
+    client: true
