@@ -20,3 +20,8 @@ hooks:
         cmd:
           # ... existing plugins ...
           - git clone https://github.com/christophdb/discourse-posthog-identify.git
+```
+
+## ToDo
+
+[ ] CSP kann nicht aktiviert werden.
