@@ -2,3 +2,15 @@ plugins:
   posthog_identify_enabled:
     default: true
     client: true
+  posthog_api_host:
+    default: "https://eu.i.posthog.com"
+    client: true
+    type: string
+  posthog_ui_host:
+    default: "https://eu.posthog.com"
+    client: true
+    type: string
+  posthog_api_key:
+    default: ""
+    client: true
+    type: string
