@@ -4,7 +4,7 @@
 # authors: Christoph Dyllick-Brenzinger
 # url: https://github.com/christophdb/discourse-posthog-identify
 
-enabled_site_setting :posthog_identify_enabled
+#enabled_site_setting :posthog_identify_enabled
 
 after_initialize do
   module ::PosthogIdentify

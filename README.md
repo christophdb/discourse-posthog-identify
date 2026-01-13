@@ -10,7 +10,8 @@ Enables PostHog `identify()` calls **with email as distinct_id** after login.
 
 ## Installation
 
-1. **Edit `containers/app.yml`:**
+**Edit `containers/app.yml`:**
+
 ```yaml
 hooks:
   after_code:
