@@ -1,8 +1,8 @@
 # name: discourse-posthog
 # about: PostHog identify endpoint for Discourse
 # version: 1.0.0
-# authors: Ihr Name
-# url: https://github.com/IHRUSERNAME/discourse-posthog
+# authors: Christoph Dyllick-Brenzinger
+# url: https://github.com/christophdb/discourse-posthog-identify
 
 enabled = true
 after_initialize do
