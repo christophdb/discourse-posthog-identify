@@ -24,4 +24,6 @@ hooks:
 
 ## ToDo
 
-[ ] CSP kann nicht aktiviert werden.
+[x] CSP kann nicht aktiviert werden. => nonce wird nun richtig gesetzt
+[ ] Discourse ist ein SPA (single page application) und die url ändert sich beim scrollen.
+[ ] Tracken von likes im forum (vielleicht per api.onAppEvent)

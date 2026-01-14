@@ -1,6 +1,6 @@
 # name: discourse-posthog-identify
 # about: Registers a POST-endpoint for PostHog user identification
-# version: 1.0.6
+# version: 1.1.0
 # authors: Christoph Dyllick-Brenzinger
 # url: https://github.com/christophdb/discourse-posthog-identify
 
@@ -47,6 +47,8 @@ after_initialize do
           disable_session_recording_heatmaps: true,
           capture_pageleave: false,
           person_profiles: 'identified_only',
+          // pageviews are deactivated, otherwise multiple payviews per topic /t/topic/5690 und /t/topic/5690/4
+          capture_pageview: false,
       });
     </script>
     HTML
