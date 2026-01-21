@@ -1,4 +1,4 @@
-# Discourse PostHog Integration
+# Discourse PostHog
 
 Enables PostHog `identify()` calls **with email as distinct_id** after login.
 
