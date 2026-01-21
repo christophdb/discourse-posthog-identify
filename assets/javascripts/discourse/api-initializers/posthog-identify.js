@@ -49,4 +49,16 @@ export default apiInitializer("1.15.0", (api) => {
     }
   });
 
+  // 🔥 DISCOURSE 2026 NEUESTE FEATURES - Event Hooks
+  // 1. TOPIC ERSTELLUNG (neueste Discourse TopicCreatedEvent)
+  api.addModelClassCallback('topic', {
+    afterCreate(topic) {
+      posthog.capture('topic_created', {
+        topic_id: topic.id,
+        title: topic.title,
+        category_id: topic.category_id
+      });
+    }
+  });
+
 });
