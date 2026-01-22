@@ -7,6 +7,34 @@ This plugin integrates Discourse with PostHog, sending events like pageviews, to
 - **Events**: pageview, pageleave, create topic, create post, like/unlike post
 - **Privacy levels of the event tracking**: anonymous, user email, hashed email
 
+## Why this plugin?
+
+While adding PostHog's JavaScript snippet directly to Discourse's `<head>` provides basic page tracking, this plugin addresses three fundamental limitations that make it far more powerful for serious analytics.
+
+### 1. Discourse is a SPA (Single Page Application)
+
+When users scroll through long topics with dozens of posts, the standard snippet fires multiple pageview events for the same topic:
+
+- /t/admin-guide-getting-started/6 ← Initial load
+- /t/admin-guide-getting-started/6/3 ← Scroll to post #3
+- /t/admin-guide-getting-started/6/5 ← Scroll to post #5
+
+This floods your analytics with duplicate pageviews that don't reflect actual user behavior. The plugin intelligently tracks a single `pageview` per topic visit plus `pageleave` events, giving you clean, meaningful data.
+
+### 2. You have pageviews but no events
+
+Pageviews alone don't capture what matters most. The most valuable user actions are `creating topics`, `writing posts`, `liking/unliking content`. These will never appear in basic tracking. You see "100 pageviews" but have no idea if those visits resulted in 3 new topics, 15 posts, and 42 likes. 
+
+This plugin captures these critical business events as distinct, actionable data points that reveal your community's true engagement patterns.
+
+### 3. No user identification
+
+The basic snippet provides no user identification. Discourse's SPA architecture blocks direct access to user information, leaving you with anonymous browser IDs (`$distinct_id: "abc123xyz"`) instead of real usernames, emails, or avatars. 
+
+This plugin creates a secure internal API endpoint (`/discourse-posthog/identify`) that provides rich user context—user ID, username, email and hashed email (SHA256), while remaining fully GDPR compliant with configurable anonymization levels.
+
+The end result is analytics that go beyond raw traffic numbers to deliver genuine insights into your Discourse community's behavior and growth.
+
 ## Production Installation
 
 ### 1. Load plugin
