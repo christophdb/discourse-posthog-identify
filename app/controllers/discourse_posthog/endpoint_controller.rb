@@ -14,10 +14,12 @@ module DiscoursePosthog
     end
 
     def identify
+      hashed_email = Digest::SHA256.hexdigest(current_user.email.downcase)
       render json: {
                id: current_user.id,
                username: current_user.username,
                email: current_user.email,
+               hashed_email: hashed_email,
              },
              content_type: "application/json"
     end

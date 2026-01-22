@@ -6,25 +6,32 @@ export default apiInitializer((api) => {
   const currentUser = api.getCurrentUser();
   let lastTopicId = null;
 
+  // site settings
+  const settings = api.container.lookup("service:site-settings");
+  const identifyMethod = settings.posthog_identify_user_by || "";
+
   // initialize
   const posthog = window.posthog;
 
   console.debug("🦔 PostHog Initializer gestartet");
 
-  // 1. USER IDENTIFICATION
-  if (currentUser) {
+  // 1. user identification
+  if (currentUser && identifyMethod !== "No User Identification" ) {
     const storageKey = `posthog_identified_${currentUser.id}`;
     console.debug(
       "🦔 PostHog Identify started. Current storageKey:",
       storageKey
     );
 
-    // Nur ausführen, wenn wir es in dieser Session noch nicht getan haben
+    // identify only once per session
     if (!sessionStorage.getItem(storageKey)) {
       ajax("/discourse-posthog/identify", { type: "POST" })
         .then((data) => {
-          posthog.identify(data.email, {
-            discourse_email: data.email,
+          const identify_with = identifyMethod === "Email" ? data.email : data.hashed_email; 
+          console.debug("Identify with", identify_with);
+
+          posthog.identify(identify_with, {
+            discourse_email: identify_with,
             discourse_id: data.id,
             discourse_username: data.username,
           });
@@ -35,19 +42,19 @@ export default apiInitializer((api) => {
     }
   }
 
-  // 2. PAGEVIEW TRACKING (SPA-kompatibel)
+  // 2. PAGEVIEW TRACKING (needed for single-page-application)
   api.onPageChange((url, title) => {
     if (!window.posthog) {
       return;
     }
 
-    // Extrahiere Topic ID aus der URL (Format: /t/slug/ID/post_number)
-    const topicMatch = url.match(/\/t\/[^\/]+\/(\d+)/);
+    // extract topic id from URL (Format: /t/slug/ID/post_number)
+    const topicMatch = url.match(/\/t\/[^\/]+\/(\d+)/) || 0;
 
     if (topicMatch) {
       const currentTopicId = topicMatch[1];
 
-      // Nur tracken, wenn es ein neues Topic ist (nicht beim Scrollen durch Posts)
+      // track only if it is a new topic, scrolling should not be tracked
       if (currentTopicId !== lastTopicId) {
         posthog.capture("$pageview", {
           discourse_topic_id: currentTopicId,
@@ -65,7 +72,7 @@ export default apiInitializer((api) => {
     }
   });
 
-  // ✅ EVENT Tracking
+  // 3. EVENT Tracking
   api.onAppEvent("topic:created", (data) => {
     posthog.capture("discourse_topic_created", {
       discourse_topic_id: data.topic_id,
@@ -85,7 +92,7 @@ export default apiInitializer((api) => {
   });
 
   api.onAppEvent("page:like-toggled", (data) => {
-    const topicId = data.post_url.match(/\/t\/[^\/]+\/(\d+)\//)?.[1] || 0;
+    const topicId = data.post_url.match(/\/t\/[^\/]+\/(\d+)/) || 0;
 
     if (data.actionByName?.like?.acted) {
       posthog.capture("discourse_post_liked", {

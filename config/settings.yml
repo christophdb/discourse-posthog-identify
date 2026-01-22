@@ -3,15 +3,12 @@ discourse_posthog:
     default: false
   posthog_api_host:
     default: "https://eu.i.posthog.com"
-    client: true
     type: string
   posthog_ui_host:
     default: "https://eu.posthog.com"
-    client: true
     type: string
   posthog_api_key:
     default: ""
-    client: true
     type: string
   posthog_identify_user_by:
     client: true
@@ -27,17 +24,10 @@ discourse_posthog:
 #######################################
   posthog_feature_disable_surveys:
     default: true
-    client: true
   posthog_feature_disable_session_recording:
     default: true
-    client: true
-  posthog_feature_disable_session_recording_heatmaps:
-    default: true
-    client: true
   posthog_cookie_expiration_in_days:
     default: 90
   posthog_api_version:
     default: "2025-11-30"
-    type: enum
-    choices:
-      - "2025-11-30"
+    type: string

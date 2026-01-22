@@ -17,13 +17,15 @@ after_initialize do
   end
 
   register_html_builder("server:before-head-close") do |controller|
-    # Skript nur einfügen, wenn das Plugin in den Einstellungen aktiviert ist
     next "" unless SiteSetting.enable_discourse_posthog_plugin
 
-    # Variablen aus den SiteSettings ziehen
     api_host = SiteSetting.posthog_api_host
     ui_host = SiteSetting.posthog_ui_host
     api_key = SiteSetting.posthog_api_key
+    feature_disable_surveys = SiteSetting.posthog_feature_disable_surveys
+    feature_disable_session_recording = SiteSetting.posthog_feature_disable_session_recording
+    cookie_expiration_in_days = SiteSetting.posthog_cookie_expiration_in_days
+    api_version = SiteSetting.api_version
 
     <<~HTML
     <script nonce='#{controller.helpers.csp_nonce_placeholder}'>
@@ -31,15 +33,16 @@ after_initialize do
       posthog.init('#{api_key}', {
           api_host: '#{api_host}',
           ui_host: '#{ui_host}',
-          defaults: '2025-11-30',
-          cookie_expiration: 90,
-          disable_surveys: true,
-          disable_session_recording: true,
-          disable_session_recording_heatmaps: true,
+          defaults: '#{api_version}',
+          cookie_expiration: #{cookie_expiration_in_days},
+          disable_surveys: #{feature_disable_surveys},
+          disable_session_recording: #{feature_disable_session_recording},
+          disable_session_recording_heatmaps: #{feature_disable_session_recording},
           autocapture: false,
           capture_pageleave: true,
           person_profiles: 'identified_only',
           // pageviews are deactivated, otherwise multiple pageviews per topic /t/topic/5690 und /t/topic/5690/4
+          // pageviews are captured in posthog-events.js
           capture_pageview: false,
       });
     </script>

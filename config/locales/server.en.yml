@@ -1,0 +1,11 @@
+en:
+  site_settings:
+    enable_discourse_posthog_plugin: "Activate Posthog Plugin"
+    posthog_api_host: "PostHog API Host URL (e.g. https://eu.i.posthog.com, https://us.i.posthog.com or any proxy)"
+    posthog_ui_host: "PostHog API UI URL (e.g. https://eu.posthog.com or https://us.posthog.com)"
+    posthog_api_key: "PostHog project API key"
+    posthog_identify_user_by: "User identification in PostHog"
+    posthog_feature_disable_surveys: "Disable PostHog surveys"
+    posthog_feature_disable_session_recording: "Disable PostHog session recording"
+    posthog_cookie_expiration_in_days: "Cookie expiration (in days)"
+    posthog_api_version: "PostHog `defaults` value"
