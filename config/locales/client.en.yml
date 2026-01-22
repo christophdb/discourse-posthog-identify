@@ -1,0 +1,6 @@
+en:
+  site_settings:
+    posthog_identify_enabled: "Activate Posthog Plugin"
+    posthog_api_host: "PostHog API Host URL (e.g. https://eu.i.posthog.com, https://us.i.posthog.com or any proxy)"
+    posthog_ui_host: "PostHog API UI URL (e.g. https://eu.posthog.com or https://us.posthog.com)"
+    posthog_api_key: "PostHog Project API Key"

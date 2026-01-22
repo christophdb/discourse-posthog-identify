@@ -1,4 +1,4 @@
-de:
+posthog:
   site_settings:
     posthog_identify_enabled: "PostHog Identifizierung aktivieren"
     posthog_api_host: "PostHog API Host URL (z.B. https://eu.i.posthog.com, https://us.i.posthog.com oder ein Proxy)"
