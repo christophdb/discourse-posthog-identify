@@ -1,6 +1,6 @@
 de:
   site_settings:
-    posthog_identify_enabled: "PostHog Identifizierung aktivieren"
+    enable_discourse_posthog_plugin: "PostHog Identifizierung aktivieren"
     posthog_api_host: "PostHog API Host URL (z.B. https://eu.i.posthog.com, https://us.i.posthog.com oder ein Proxy)"
     posthog_ui_host: "PostHog API UI URL (z.B. https://eu.posthog.com oder https://us.posthog.com)"
     posthog_api_key: "PostHog Project API Key"
