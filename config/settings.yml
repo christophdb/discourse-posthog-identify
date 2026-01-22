@@ -1,4 +1,4 @@
-plugins:
+posthog:
   posthog_identify_enabled:
     default: true
     client: true
@@ -14,3 +14,16 @@ plugins:
     default: ""
     client: true
     type: string
+
+posthog_features:
+  posthog_disable_surveys:
+    default: true
+    client: true
+  posthog_disable_session_recording:
+    default: true
+    client: true
+
+posthog_advanced:
+  posthog_hash_email:
+    default: true
+    client: true

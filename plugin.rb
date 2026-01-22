@@ -1,10 +1,11 @@
 # name: discourse-posthog
-# about: Registers a POST-endpoint for PostHog user identification
+# about: Track pageviews, events in Posthog. Registers a POST-endpoint for PostHog user identification.
 # version: 1.1.1
 # authors: Christoph Dyllick-Brenzinger
 # url: https://github.com/christophdb/discourse-posthog
 
-if Rails.env.development?
+# Activate Developemnt Mode
+if ENV['DISCOURSE_DEV'] || Rails.env.development?
   PRELOAD_PLUGINS = false
   DiscoursePluginRegistry.development_mode = true
 end
