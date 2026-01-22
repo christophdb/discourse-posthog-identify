@@ -1,32 +1,22 @@
+# frozen_string_literal: true
+
 # name: discourse-posthog
 # about: Track pageviews, events in Posthog. Registers a POST-endpoint for PostHog user identification.
-# version: 1.1.1
+# version: 0.3
 # authors: Christoph Dyllick-Brenzinger
 # url: https://github.com/christophdb/discourse-posthog
 
 enabled_site_setting :posthog_identify_enabled
 
 after_initialize do
-  module ::PosthogIdentify
-    class IdentifyController < ::ApplicationController
-      # Erzwingt Login (liefert 403, wenn nicht eingeloggt)
-      before_action :ensure_logged_in
-      
-      def identify
-        render json: {
-          id: current_user.id,
-          username: current_user.username,
-          email: current_user.email
-        }
-      end
-    end
-  end
+  require_relative "app/controllers/discourse_posthog/endpoint_controller"
 
   Discourse::Application.routes.append do
-    post "/posthog/identify" => "posthog_identify/identify#identify"
+    post "/discourse-posthog/identify" => "discourse_posthog/endpoint#identify"
+    get "/discourse-posthog/status" => "discourse_posthog/endpoint#status"
   end
 
-  register_html_builder('server:before-head-close') do |controller|
+  register_html_builder("server:before-head-close") do |controller|
     # Skript nur einfügen, wenn das Plugin in den Einstellungen aktiviert ist
     next "" unless SiteSetting.posthog_identify_enabled
 
@@ -47,10 +37,10 @@ after_initialize do
           disable_session_recording: true,
           disable_session_recording_heatmaps: true,
           autocapture: false,
-          capture_pageleave: false,
+          capture_pageleave: true,
           person_profiles: 'identified_only',
           // pageviews are deactivated, otherwise multiple pageviews per topic /t/topic/5690 und /t/topic/5690/4
-          capture_pageview: false,
+          capture_pageview: true,
       });
     </script>
     HTML
